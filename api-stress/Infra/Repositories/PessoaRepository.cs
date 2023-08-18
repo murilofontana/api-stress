@@ -18,6 +18,8 @@ namespace Infra.Repositories
     public Task Insert(Pessoa pessoa)
     {
       _dataContext.AddAsync(pessoa);
+
+      _dataContext.SaveChangesAsync();
       
       return Task.CompletedTask;
     }

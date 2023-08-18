@@ -1,5 +1,10 @@
 using api_stress.Extensions;
+using Domain.Entities;
+using Domain.Interfaces.Repositories;
 using Infra.Context;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Xml.Linq;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,7 +13,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddSingleton<DataContext>();
+builder.Services.AddDbContext<DataContext>(options => options.UseInMemoryDatabase("person"));
 builder.Services.AddRepositories();
 
 var app = builder.Build();
