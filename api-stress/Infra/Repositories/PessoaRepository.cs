@@ -15,13 +15,12 @@ namespace Infra.Repositories
 
     public async Task<Pessoa> Get(Guid id) => await _dataContext.FindAsync<Pessoa>(id);
 
-    public Task Insert(Pessoa pessoa)
+    public async Task Insert(Pessoa pessoa)
     {
-      _dataContext.AddAsync(pessoa);
+      await _dataContext.AddAsync(pessoa);
 
-      _dataContext.SaveChangesAsync();
+      await _dataContext.SaveChangesAsync();
       
-      return Task.CompletedTask;
     }
   }
 }
