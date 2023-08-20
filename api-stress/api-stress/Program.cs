@@ -1,3 +1,4 @@
+using api_stress.DTOs.Request;
 using api_stress.Extensions;
 using api_stress.Options;
 using Domain.Entities;
@@ -53,6 +54,30 @@ app.MapGet("/weatherforecast", () =>
   return forecast;
 })
 .WithName("GetWeatherForecast");
+
+app.MapGet("/pessoas/{id:guid}", async ([FromRoute(Name = "id")] Guid ? id, [FromServices]IPessoaRepository _pessoaRepository) => 
+{
+  var pessoa = await _pessoaRepository.Get(id ?? Guid.NewGuid());
+  
+  return pessoa;
+  
+});
+
+app.MapPost("/pessoas", async ([FromBody]PessoaRequest requestPessoa, [FromServices] IPessoaRepository _pessoaRepository) =>
+{
+  try
+  {
+    var pessoa = new Pessoa(requestPessoa.Apelido, requestPessoa.Nome, requestPessoa.Nascimento, requestPessoa.Stack);
+    await _pessoaRepository.Insert(pessoa);
+
+    return Results.Created(new Uri($"/pessoas/{pessoa.Id}"), pessoa);
+
+  }
+  catch (Exception e)
+  {
+    return Results.BadRequest(e.Message);
+  }
+});
 
 app.Run();
 
