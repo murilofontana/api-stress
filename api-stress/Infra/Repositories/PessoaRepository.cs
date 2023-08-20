@@ -1,6 +1,7 @@
 ﻿using Domain.Entities;
 using Domain.Interfaces.Repositories;
 using Infra.Context;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infra.Repositories
 {
@@ -21,6 +22,15 @@ namespace Infra.Repositories
 
       await _dataContext.SaveChangesAsync();
       
+    }
+
+    public async Task<IEnumerable<Pessoa>> SearchByTerm(string term)
+    {
+      var set = _dataContext.Set<Pessoa>();
+
+      var filtedData = set.Where(t => t.Nome.Contains(term) || t.Apelido.Contains(term) || t.Stack.Contains(term));
+
+      return await filtedData.ToListAsync();
     }
   }
 }
