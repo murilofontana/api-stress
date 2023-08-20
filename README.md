@@ -1,2 +1,2 @@
 # api-stress
-A .net core API to stress to improve knowledge
+stress test of a .net core API to improve knowledge
