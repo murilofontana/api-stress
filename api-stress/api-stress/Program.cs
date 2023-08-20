@@ -47,6 +47,14 @@ app.MapGet("/pessoas/{id:guid}", async ([FromRoute(Name = "id")] Guid id, [FromS
   
 });
 
+app.MapGet("/pessoas", async ([FromQuery(Name = "t")] string searchTerm, [FromServices] IPessoaRepository _pessoaRepository) =>
+{
+  var pessoa = await _pessoaRepository.SearchByTerm(searchTerm);
+
+  return Results.Ok(pessoa);
+
+});
+
 app.MapPost("/pessoas", async ([FromBody]PessoaRequest requestPessoa, [FromServices] IPessoaRepository _pessoaRepository) =>
 {
   try
