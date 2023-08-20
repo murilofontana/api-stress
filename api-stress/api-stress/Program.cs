@@ -37,11 +37,13 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 
-app.MapGet("/pessoas/{id:guid}", async ([FromRoute(Name = "id")] Guid ? id, [FromServices]IPessoaRepository _pessoaRepository) => 
+app.MapGet("/pessoas/{id:guid}", async ([FromRoute(Name = "id")] Guid id, [FromServices]IPessoaRepository _pessoaRepository) => 
 {
-  var pessoa = await _pessoaRepository.Get(id ?? Guid.NewGuid());
+  var pessoa = await _pessoaRepository.Get(id);
+
+  if (pessoa == null) return Results.NotFound();
   
-  return pessoa;
+  return Results.Ok(pessoa);
   
 });
 
