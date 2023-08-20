@@ -1,4 +1,5 @@
 using api_stress.Extensions;
+using api_stress.Options;
 using Domain.Entities;
 using Domain.Interfaces.Repositories;
 using Infra.Context;
@@ -13,7 +14,12 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<DataContext>(options => options.UseInMemoryDatabase("person"));
+ConnectionStrings conncetionStringOptions = new();
+builder.Configuration.GetSection(nameof(ConnectionStrings))
+    .Bind(conncetionStringOptions);
+
+
+builder.Services.AddDbContext<DataContext>(options => options.UseNpgsql(conncetionStringOptions.Database));
 builder.Services.AddRepositories();
 
 var app = builder.Build();
