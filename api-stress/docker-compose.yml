@@ -12,6 +12,7 @@ services:
       - db
     environment:
       - ConnectionStrings__Database=Host=db;Port=5432;Database=api;Username=root;Password=postgrespw
+      - MigrationsConfiguration__ApplyMigrations=false
     deploy:
       resources:
         limits:
@@ -28,8 +29,10 @@ services:
       - "80"
     depends_on:
       - db
+      - api1
     environment:
       - ConnectionStrings__Database=Host=db;Port=5432;Database=api;Username=root;Password=postgrespw
+      - MigrationsConfiguration__ApplyMigrations=false
     deploy:
       resources:
         limits:
