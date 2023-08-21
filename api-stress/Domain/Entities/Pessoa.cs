@@ -11,7 +11,7 @@ namespace Domain.Entities
 {
   public class Pessoa
   {
-    public Pessoa(string apelido, string nome, DateOnly nascimento, List<string> stack)
+    public Pessoa(string apelido, string nome, DateOnly nascimento, List<string>? stack)
     {
       Id = Guid.NewGuid();
       Apelido = apelido;
@@ -24,13 +24,13 @@ namespace Domain.Entities
     public string Apelido { get; set; } = string.Empty;
     public string Nome { get; set; } = string.Empty;
     public DateOnly Nascimento { get; set; }
-    public List<string> Stack { get; set; } = new List<string>();
+    public List<string>? Stack { get; set; } = new List<string>();
   }
   public static class PessoaValidator
   {
     public static bool IsValid(this Pessoa pessoa)
     {
-      return (pessoa.Apelido.Length <= 32) && (pessoa.Nome.Length <= 100) && (pessoa.Stack.All(t => t.Length <= 32));
+      return (pessoa.Apelido.Length <= 32) && (pessoa.Nome.Length <= 100) && (pessoa?.Stack?.All(t => t.Length <= 32) ?? true);
     }
   }
 }
