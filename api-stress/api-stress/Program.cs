@@ -6,6 +6,7 @@ using Domain.Interfaces.Repositories;
 using Infra.Context;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System.Xml.Linq;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,13 +20,28 @@ ConnectionStrings conncetionStringOptions = new();
 builder.Configuration.GetSection(nameof(ConnectionStrings))
     .Bind(conncetionStringOptions);
 
+MigrationsConfiguration migrationsConfigurationOptions= new();
+builder.Configuration.GetSection(nameof(MigrationsConfiguration))
+    .Bind(migrationsConfigurationOptions);
 
-builder.Services.AddDbContext<DataContext>(options => options.UseNpgsql(conncetionStringOptions.Database));
+builder.Services.AddDbContext<DataContext>(options =>
+{
+  options.UseNpgsql(conncetionStringOptions.Database, npgsqlOptions =>
+  {
+    npgsqlOptions.MaxBatchSize(100); // Set the maximum batch size for queries
+    npgsqlOptions.EnableRetryOnFailure(); // Enable automatic retries on failure
+  });
+});
 builder.Services.AddRepositories();
 
 var app = builder.Build();
+//Console.WriteLine($"Valor da váriavel apply migrations{migrationsConfigurationOptions.ApplyMigrations}");
 
-app.MigrateDatabase();
+if (migrationsConfigurationOptions.ApplyMigrations)
+{
+  app.MigrateDatabase();
+}
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
