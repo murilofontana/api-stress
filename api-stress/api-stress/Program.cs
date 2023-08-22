@@ -79,7 +79,7 @@ app.MapPost("/pessoas", async ([FromBody]PessoaRequest requestPessoa, [FromServi
     if (!pessoa.IsValid()) return Results.UnprocessableEntity("UnprocessableEntity");
     await _pessoaRepository.Insert(pessoa);
 
-    return Results.Created(new Uri($"/pessoas/{pessoa.Id}"), pessoa);
+    return Results.Created(new Uri($"/pessoas/{pessoa.Id}", uriKind: UriKind.Relative), pessoa);
 
   }
   catch (Exception e)
