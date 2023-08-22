@@ -88,4 +88,12 @@ app.MapPost("/pessoas", async ([FromBody]PessoaRequest requestPessoa, [FromServi
   }
 });
 
+app.MapGet("/contagem-pessoas", async ([FromServices] IPessoaRepository _pessoaRepository) =>
+{
+  var pessoasCount = await _pessoaRepository.CountPessoas();
+
+  return Results.Ok(pessoasCount);
+
+});
+
 app.Run();
