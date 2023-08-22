@@ -34,7 +34,7 @@ namespace Infra.Repositories
     {
       var set = _dataContext.Set<Pessoa>();
 
-      var filtedData = set.Where(t => t.Nome.Contains(term) || t.Apelido.Contains(term) || t.Stack.Contains(term));
+      var filtedData = set.Where(t => t.Nome.Contains(term) || t.Apelido.Contains(term) || t.Stack.Contains(term)).Take(50);
 
       return await filtedData.ToListAsync();
     }
