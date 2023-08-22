@@ -2,8 +2,8 @@ version: '3.5'
 services:
   api1: # API - Instância 01
     container_name: api01
-    image: api-stress
     build:
+      context: .
       dockerfile: api-stress/Dockerfile
     hostname: api1
     ports:
@@ -12,7 +12,7 @@ services:
       - db
     environment:
       - ConnectionStrings__Database=Host=db;Port=5432;Database=api;Username=root;Password=postgrespw
-      - MigrationsConfiguration__ApplyMigrations=false
+      - MigrationsConfiguration__ApplyMigrations=true
     deploy:
       resources:
         limits:
@@ -21,15 +21,14 @@ services:
   
   api2: # API - Instância 02
     container_name: api02
-    image: api-stress
     build:
+      context: .
       dockerfile: api-stress/Dockerfile
     hostname: api2
     ports:
       - "80"
     depends_on:
       - db
-      - api1
     environment:
       - ConnectionStrings__Database=Host=db;Port=5432;Database=api;Username=root;Password=postgrespw
       - MigrationsConfiguration__ApplyMigrations=false
