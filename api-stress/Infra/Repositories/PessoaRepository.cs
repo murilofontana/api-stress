@@ -14,6 +14,12 @@ namespace Infra.Repositories
       this._dataContext = dataContext;
     }
 
+    public async Task<int> CountPessoas()
+    {
+      var set = _dataContext.Set<Pessoa>();
+      return await set.CountAsync();
+    }
+
     public async Task<Pessoa> Get(Guid id) => await _dataContext.FindAsync<Pessoa>(id);
 
     public async Task Insert(Pessoa pessoa)

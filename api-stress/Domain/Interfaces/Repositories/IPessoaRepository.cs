@@ -12,5 +12,6 @@ namespace Domain.Interfaces.Repositories
     Task Insert(Pessoa pessoa);
     Task<Pessoa> Get(Guid id);
     Task<IEnumerable<Pessoa>> SearchByTerm(string term);
+    Task<int> CountPessoas();
   }
 }
