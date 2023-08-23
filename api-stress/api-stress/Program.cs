@@ -32,7 +32,6 @@ builder.Services.AddDbContextPool<DataContext>(options =>
 builder.Services.AddRepositories();
 
 var app = builder.Build();
-//Console.WriteLine($"Valor da váriavel apply migrations{migrationsConfigurationOptions.ApplyMigrations}");
 
 if (migrationsConfigurationOptions.ApplyMigrations)
 {
