@@ -4,7 +4,7 @@ services:
     container_name: api01
     build:
       context: .
-      dockerfile: api-stress/Dockerfile
+      dockerfile: Dockerfile
     hostname: api1
     ports:
       - "80"
@@ -23,7 +23,7 @@ services:
     container_name: api02
     build:
       context: .
-      dockerfile: api-stress/Dockerfile
+      dockerfile: Dockerfile
     hostname: api2
     ports:
       - "80"
