@@ -25,13 +25,9 @@ MigrationsConfiguration migrationsConfigurationOptions= new();
 builder.Configuration.GetSection(nameof(MigrationsConfiguration))
     .Bind(migrationsConfigurationOptions);
 
-builder.Services.AddDbContext<DataContext>(options =>
+builder.Services.AddDbContextPool<DataContext>(options =>
 {
-  options.UseNpgsql(conncetionStringOptions.Database, npgsqlOptions =>
-  {
-    npgsqlOptions.MaxBatchSize(100); // Set the maximum batch size for queries
-    npgsqlOptions.EnableRetryOnFailure(); // Enable automatic retries on failure
-  });
+  options.UseNpgsql(conncetionStringOptions.Database);
 });
 builder.Services.AddRepositories();
 
